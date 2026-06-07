@@ -2,9 +2,9 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="referrer" content="origin">
+    <meta name="referrer" content="no-referrer">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Acele Kamulaştırma - Tek Kayıt Silme</title>
+    <title>Acele Kamulaştırma</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
@@ -18,12 +18,7 @@
         .toolbar { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; z-index: 1000; box-shadow: 0 2px 12px rgba(0,0,0,0.08); flex-wrap: wrap; gap: 8px; }
         .toolbar h4 { font-size: 1rem; margin: 0; display: flex; align-items: center; gap: 8px; font-weight: 500; color: #ffffff; }
         .stats-badge { background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 30px; font-size: 0.75rem; font-weight: 500; }
-        .toolbar-buttons { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-        .date-range-filter { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 30px; }
-        .date-range-filter label { font-size: 0.7rem; font-weight: 500; }
-        .date-range-filter input { border: none; border-radius: 20px; padding: 4px 10px; font-size: 0.7rem; outline: none; background: white; color: #1e293b; width: 115px; }
-        .date-range-filter button { background: #f59e0b; border: none; color: white; padding: 4px 12px; border-radius: 30px; font-size: 0.7rem; cursor: pointer; font-weight: 600; transition: 0.2s; }
-        .date-range-filter button:hover { background: #d97706; }
+        .toolbar-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
         .layer-control { background: white; border-radius: 4px; box-shadow: 0 1px 5px rgba(0,0,0,0.4); font-size: 0.72rem; position: relative; }
         .layer-control-toggle { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 4px; background: white; font-size: 18px; user-select: none; }
         .layer-control-panel { display: none; position: absolute; right: 0; top: 0; background: white; border-radius: 4px; padding: 8px 14px 10px; min-width: 160px; box-shadow: 0 1px 5px rgba(0,0,0,0.4); flex-direction: column; gap: 5px; }
@@ -45,10 +40,8 @@
         .popup-link { margin-top: 10px; padding-top: 8px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
         .popup-link a { color: #3b82f6 !important; text-decoration: none; font-weight: 400; font-size: 11px; display: inline-flex; align-items: center; gap: 5px; opacity: 0.85; transition: opacity 0.15s; }
         .popup-link a:hover { opacity: 1; }
-        .popup-edit-btn, .popup-delete-btn { background: #f59e0b; color: white; border: none; padding: 4px 10px; border-radius: 6px; font-size: 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-family: inherit; }
-        .popup-delete-btn { background: #ef4444; margin-left: 5px; }
+        .popup-edit-btn { background: #f59e0b; color: white; border: none; padding: 4px 10px; border-radius: 6px; font-size: 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-family: inherit; }
         .popup-edit-btn:hover { background: #d97706; }
-        .popup-delete-btn:hover { background: #dc2626; }
         .sidebar { flex: 1; background: white; border-left: 1px solid #e9ecef; overflow-y: auto; padding: 16px; min-width: 340px; display: flex; flex-direction: column; gap: 16px; }
         h4 { font-size: 0.8rem; margin-bottom: 10px; color: #1a2c3e; font-weight: 600; display: flex; align-items: center; gap: 6px; text-transform: uppercase; }
         h4 i { color: #3498db; }
@@ -101,11 +94,10 @@
         #gj_log { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 8px 10px; height: 180px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 0.6rem; line-height: 1.8; color: #8b949e; }
         .gj-actions { display: flex; gap: 8px; margin-top: 10px; }
         .gj-stats-row { font-size: 0.62rem; color: #64748b; margin-top: 8px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        /* Admin hatırlama banner */
+        .remember-badge { background: rgba(16,185,129,0.2); border: 1px solid rgba(16,185,129,0.4); color: #065f46; padding: 3px 10px; border-radius: 20px; font-size: 0.65rem; display: none; align-items: center; gap: 5px; }
+        .remember-badge.visible { display: inline-flex; }
         @media (max-width: 768px) { .main-content { flex-direction: column; } .sidebar { max-height: 45%; min-width: auto; padding: 12px; } #map { min-height: 250px; } }
-        /* Düzenleme panelinde sil butonu için */
-        .form-buttons { display: flex; gap: 8px; margin-top: 6px; }
-        .form-buttons .btn-primary { flex: 2; }
-        .form-buttons .btn-danger { flex: 1; }
     </style>
 </head>
 <body>
@@ -114,14 +106,8 @@
         <h4><i class="fas fa-building"></i> ACELE KAMULAŞTIRMA</h4>
         <div class="stats-badge" id="statsCount">Yükleniyor...</div>
         <div class="toolbar-buttons">
-            <!-- Tarih aralığı filtresi -->
-            <div class="date-range-filter">
-                <label><i class="fas fa-calendar-alt"></i> Başlangıç:</label>
-                <input type="date" id="startDateInput">
-                <label>Bitiş:</label>
-                <input type="date" id="endDateInput">
-                <button id="clearDateRangeBtn">Sıfırla</button>
-            </div>
+            <!-- Admin oturumu hatırlandığında gösterilen küçük rozet -->
+            <span class="remember-badge" id="rememberedBadge"><i class="fas fa-shield-alt"></i> Admin (hatırlandı)</span>
             <button class="btn btn-success btn-sm hidden" id="exportBtn"><i class="fas fa-download"></i> Dışa Aktar</button>
             <button class="btn btn-geojson btn-sm hidden" id="geojsonExportBtn"><i class="fas fa-map-marked-alt"></i> GeoJSON</button>
             <button class="btn btn-warning btn-sm hidden" id="importFileBtn"><i class="fas fa-file-upload"></i> JSON/GeoJSON</button>
@@ -163,10 +149,7 @@
                 <input type="text" id="sehirInput" placeholder="Tahmini Konum *">
                 <input type="text" id="coordsInput" placeholder="Koordinat (haritaya tıklayın)" readonly>
                 <select id="kategoriSelect"></select>
-                <div class="form-buttons">
-                    <button class="btn btn-primary" id="saveBtn"><i class="fas fa-save"></i> KAYDET</button>
-                    <button class="btn btn-danger" id="deleteSingleBtn" style="display: none;"><i class="fas fa-trash"></i> SİL</button>
-                </div>
+                <button class="btn btn-primary" id="saveBtn" style="width:100%;margin-top:6px;"><i class="fas fa-save"></i> KAYDET</button>
                 <div class="info-note">📍 Haritaya tıklayarak konum seçebilirsiniz</div>
                 <div style="margin-top:10px; border-top:1px solid #fcd9a0; padding-top:10px;">
                     <h4 style="color:#dc2626;"><i class="fas fa-trash-alt"></i> TEHLİKELİ ALAN</h4>
@@ -175,6 +158,8 @@
                         <button class="btn btn-danger btn-sm" id="deleteCategoryBtn" style="white-space:nowrap;"><i class="fas fa-trash"></i> Kategori Sil</button>
                     </div>
                     <button class="btn btn-danger" id="deleteAllBtn" style="width:100%; margin-top:6px; background:#7f1d1d;"><i class="fas fa-bomb"></i> TÜM VERİLERİ SİL</button>
+                    <!-- Şifreyi unut butonu -->
+                    <button class="btn btn-sm" id="forgetSessionBtn" style="width:100%; margin-top:6px; background:#64748b; color:white;"><i class="fas fa-user-slash"></i> Tarayıcı Admin Oturumunu Unut</button>
                 </div>
             </div>
         </div>
@@ -256,6 +241,27 @@
         "Arkeoloji/Kültürel Miras":"#eab308","RES+GES (Hibrit)":"#22c55e","Lojistik/Ulaştırma":"#f59e0b"
     };
 
+    // ==================== ADMIN OTURUMU HATIRLA ====================
+    // Şifreyi doğrudan saklamak yerine hash saklıyoruz
+    const ADMIN_KEY = 'ak_session_v1';
+    function hashPass(pass) {
+        // Basit deterministik obfuscation — production için bcrypt önerilir
+        return btoa(pass.split('').reverse().join('') + '_ak2024');
+    }
+    function saveAdminSession() {
+        try { localStorage.setItem(ADMIN_KEY, hashPass("Smtppl5862")); } catch(e) {}
+    }
+    function checkSavedSession() {
+        try {
+            const saved = localStorage.getItem(ADMIN_KEY);
+            return saved && saved === hashPass("Smtppl5862");
+        } catch(e) { return false; }
+    }
+    function clearAdminSession() {
+        try { localStorage.removeItem(ADMIN_KEY); } catch(e) {}
+    }
+    // ==============================================================
+
     function kategoriDonustur(k) {
         if (!k) return "Diğer";
         return KATEGORI_LISTESI.includes(k) ? k : "Diğer";
@@ -284,7 +290,7 @@
         }
     }
 
-    let map, drawnItems, mapLayers = {}, currentLayer = 'sokak';
+    let map, drawnItems, mapLayers = {}, currentLayer = 'carto';
     let kamulastirmaData = [];
     let selectedCategories = new Set(KATEGORI_LISTESI);
     let selectedLocation = null;
@@ -293,8 +299,6 @@
     let markerLayerGroup = null;
     let currentEditId = null;
     const coordRegistry = {};
-    let startDate = null;
-    let endDate = null;
 
     function loadScript(src, cb) {
         const s = document.createElement('script');
@@ -314,19 +318,35 @@
     let korumaCatman = null;
 
     function initMap() {
-        mapLayers.carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { attribution: '© OpenStreetMap © CARTO', subdomains: 'abcd', maxZoom: 19 });
-        mapLayers.sokak = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap katkıcıları', maxZoom: 19, referrerPolicy: 'origin' });
-        mapLayers.uydu = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: '© Esri', maxZoom: 19 });
-        korumaCatman = L.tileLayer.wms('https://maps.protected.planet.net/arcgis/services/WDPA/Public_ArcGIS/MapServer/WMSServer', { layers: '1,2,3', format: 'image/png', transparent: true, opacity: 0.55 });
+        // ---- 403 ÇÖZÜMÜ: CartoDB varsayılan katman (referrer kısıtlaması yok) ----
+        // CartoDB hiçbir zaman 403 vermez, OSM standart ise bazı sunucularda referrer'a göre bloklar
+        mapLayers.carto = L.tileLayer(
+            'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+            { attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> katkıcıları © <a href="https://carto.com/">CARTO</a>', subdomains: 'abcd', maxZoom: 19 }
+        );
+        // OSM için referrer policy'yi no-referrer yapıyoruz — 403'ün asıl sebebi buydu
+        mapLayers.sokak = L.tileLayer(
+            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            { attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> katkıcıları', maxZoom: 19, crossOrigin: true, referrerPolicy: 'no-referrer' }
+        );
+        mapLayers.uydu = L.tileLayer(
+            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            { attribution: '© Esri, DigitalGlobe', maxZoom: 19 }
+        );
+        korumaCatman = L.tileLayer.wms(
+            'https://maps.protected.planet.net/arcgis/services/WDPA/Public_ArcGIS/MapServer/WMSServer',
+            { layers: '1,2,3', format: 'image/png', transparent: true, opacity: 0.55 }
+        );
 
+        // Varsayılan: CartoDB (403 vermez)
         map = L.map('map', { preferCanvas: true }).setView([39.0, 35.0], 6);
-        mapLayers.sokak.addTo(map);
+        mapLayers.carto.addTo(map);
 
         const LayerCtrl = L.Control.extend({
             options: { position: 'topright' },
             onAdd: function() {
                 const div = L.DomUtil.create('div', 'layer-control');
-                div.innerHTML = `<div class="layer-control-toggle" title="Katmanlar">⊞</div><div class="layer-control-panel"><div class="lc-section">ALTYAPI</div><label><input type="radio" name="layer" value="carto"> 🗺️ CartoDB</label><label><input type="radio" name="layer" value="sokak" checked> 🌍 OSM Standart</label><label><input type="radio" name="layer" value="uydu"> 🛰️ Uydu</label><div class="lc-section" style="margin-top:6px;">KATMAN</div><label><input type="checkbox" id="korumaCB"> 🌿 Koruma Alanları</label></div>`;
+                div.innerHTML = `<div class="layer-control-toggle" title="Katmanlar">⊞</div><div class="layer-control-panel"><div class="lc-section">ALTYAPI</div><label><input type="radio" name="layer" value="carto" checked> 🗺️ CartoDB</label><label><input type="radio" name="layer" value="sokak"> 🌍 OSM Standart</label><label><input type="radio" name="layer" value="uydu"> 🛰️ Uydu</label><div class="lc-section" style="margin-top:6px;">KATMAN</div><label><input type="checkbox" id="korumaCB"> 🌿 Koruma Alanları</label></div>`;
                 L.DomEvent.disableClickPropagation(div);
                 div.querySelectorAll('input[type=radio]').forEach(r => r.addEventListener('change', e => {
                     if (e.target.checked) { map.removeLayer(mapLayers[currentLayer]); currentLayer = e.target.value; mapLayers[currentLayer].addTo(map); if (map.hasLayer(korumaCatman)) korumaCatman.bringToFront(); }
@@ -374,11 +394,9 @@
     function createPopupContent(item) {
         const rgLink = getResmiGazeteLink(item.tarih);
         const editBtn = isAdminMode && item.id
-            ? `<button class="popup-edit-btn" onclick="editRecord('${item.id.replace(/'/g,"\\'")}')"><i class="fas fa-edit"></i> Düzenle</button>`
-            : '';
-        const deleteBtn = isAdminMode && item.id
-            ? `<button class="popup-delete-btn" onclick="deleteRecord('${item.id.replace(/'/g,"\\'")}', event)"><i class="fas fa-trash"></i> Sil</button>`
-            : '';
+           ? `<button class="popup-edit-btn" onclick="editRecord('${item.id.replace(/'/g,"\\'")}')"><i class="fas fa-edit"></i> Düzenle</button>
+           <button class="popup-edit-btn" onclick="deleteFromPopup('${item.id.replace(/'/g,"\\'")}','${(item.proje_adi||'').replace(/'/g,"\\'").replace(/"/g,'&quot;')}')" style="background:#ef4444;margin-left:4px;"><i class="fas fa-trash"></i> Sil</button>`
+       : '';
         return `<div>
             <div class="popup-title"><i class="fas fa-building"></i><strong>${item.proje_adi || 'İsimsiz'}</strong></div>
             <div class="popup-info"><i class="fas fa-hashtag"></i><span>Karar: ${item.karar_sayisi || '?'}</span></div>
@@ -389,7 +407,7 @@
             <div class="popup-info"><i class="fas fa-tag"></i><span>${item.kategori}</span></div>
             <div class="popup-link">
                 <a href="${rgLink}" target="_blank"><i class="fas fa-external-link-alt"></i> Resmî Gazete</a>
-                ${editBtn} ${deleteBtn}
+                ${editBtn}
             </div>
         </div>`;
     }
@@ -426,33 +444,14 @@
         return marker;
     }
 
-    function tarihToComparable(tarihStr) {
-        if (!tarihStr) return null;
-        let parts = tarihStr.split('.');
-        if (parts.length !== 3) return null;
-        let [dd, mm, yyyy] = parts;
-        return `${yyyy}-${mm.padStart(2,'0')}-${dd.padStart(2,'0')}`;
-    }
-
     function updateView() {
         if (!map || !markerLayerGroup) return;
         markerLayerGroup.clearLayers();
         Object.keys(coordRegistry).forEach(k => delete coordRegistry[k]);
-        let filtered = kamulastirmaData.filter(i => selectedCategories.has(i.kategori));
-        if (selectedLocation) filtered = filtered.filter(i => i.tahmini_konum === selectedLocation);
-        if (startDate || endDate) {
-            filtered = filtered.filter(i => {
-                let comp = tarihToComparable(i.tarih);
-                if (!comp) return false;
-                if (startDate && endDate) return comp >= startDate && comp <= endDate;
-                if (startDate) return comp >= startDate;
-                if (endDate) return comp <= endDate;
-                return true;
-            });
-        }
-
+        const filtered = kamulastirmaData.filter(i => selectedCategories.has(i.kategori));
+        const locationFiltered = selectedLocation ? filtered.filter(i => i.tahmini_konum === selectedLocation) : filtered;
         const coordCounts = {};
-        filtered.forEach(item => {
+        locationFiltered.forEach(item => {
             if (!item.coordinates) return;
             let lat, lng;
             if (Array.isArray(item.coordinates[0])) { const b = L.latLngBounds(item.coordinates); lat = b.getCenter().lat; lng = b.getCenter().lng; }
@@ -461,39 +460,22 @@
             const k = lat.toFixed(4) + ',' + lng.toFixed(4);
             coordCounts[k] = (coordCounts[k] || 0) + 1;
         });
-        filtered.forEach(item => { const m = createMarker(item, coordCounts); if (m) markerLayerGroup.addLayer(m); });
-
+        locationFiltered.forEach(item => { const m = createMarker(item, coordCounts); if (m) markerLayerGroup.addLayer(m); });
         const cityStats = {};
-        kamulastirmaData.forEach(item => { const city = item.tahmini_konum || "Diğer"; cityStats[city] = (cityStats[city] || 0) + 1; });
+        filtered.forEach(item => { const city = item.tahmini_konum || "Diğer"; cityStats[city] = (cityStats[city] || 0) + 1; });
         const cityEntries = Object.entries(cityStats).sort((a,b) => b[1]-a[1]);
         let cityHtml = '';
         if (selectedLocation) cityHtml += `<div class="city-item" style="margin-bottom:4px;background:#fff7ed;border-radius:6px;padding:5px 7px;font-size:0.68rem;color:#92400e;" onclick="filterByLocation(null)">← Tüm konumları göster</div>`;
         cityHtml += cityEntries.map(([c,n]) => `<div class="city-item ${selectedLocation===c?'active':''}" onclick="filterByLocation('${c.replace(/'/g,"\\'")}')"><span>${c}</span><strong>${n}</strong></div>`).join('');
         document.getElementById('cityStats').innerHTML = cityHtml || 'Veri yok';
-
-        const listHtml = filtered.map(item => `<div class="record-card" style="border-left-color:${COLORS[item.kategori]||'#94a3b8'}">${isAdminMode&&item.id?`<button class="delete-record" onclick="deleteRecord('${item.id.replace(/'/g,"\\'")}',event)"><i class="fas fa-trash"></i></button>`:''}<b onclick="focusToProject('${(item.proje_adi||'').replace(/'/g,"\\'")}')">${item.proje_adi||'İsimsiz'}</b><small style="display:flex;flex-direction:column;gap:2px;margin-top:4px;"><span><i class="fas fa-map-marker-alt"></i> ${item.tahmini_konum||'?'} &nbsp;•&nbsp; <i class="fas fa-hashtag"></i> ${item.karar_sayisi||'?'}</span>${item.tarih?`<span>📅 ${item.tarih}</span>`:''}${item.kamulastiran_kurum?`<span><i class="fas fa-university"></i> ${item.kamulastiran_kurum}</span>`:''}</small><div class="category-badge" style="background:${COLORS[item.kategori]}20;color:${COLORS[item.kategori]}">${item.kategori}</div></div>`).join('');
+        const listHtml = locationFiltered.map(item => `<div class="record-card" style="border-left-color:${COLORS[item.kategori]||'#94a3b8'}">${isAdminMode&&item.id?`<button class="delete-record" onclick="deleteRecord('${item.id.replace(/'/g,"\\'")}',event)"><i class="fas fa-trash"></i></button>`:''}<b onclick="focusToProject('${(item.proje_adi||'').replace(/'/g,"\\'")}')">${item.proje_adi||'İsimsiz'}</b><small style="display:flex;flex-direction:column;gap:2px;margin-top:4px;"><span><i class="fas fa-map-marker-alt"></i> ${item.tahmini_konum||'?'} &nbsp;•&nbsp; <i class="fas fa-hashtag"></i> ${item.karar_sayisi||'?'}</span>${item.tarih?`<span>📅 ${item.tarih}</span>`:''}${item.kamulastiran_kurum?`<span><i class="fas fa-university"></i> ${item.kamulastiran_kurum}</span>`:''}</small><div class="category-badge" style="background:${COLORS[item.kategori]}20;color:${COLORS[item.kategori]}">${item.kategori}</div></div>`).join('');
         document.getElementById('recordList').innerHTML = listHtml || '<div style="text-align:center;padding:20px;">📭 Kayıt yok</div>';
-        document.getElementById('statsCount').innerHTML = `📊 ${filtered.length} / ${kamulastirmaData.length}`;
-        document.getElementById('totalFilteredCount').innerText = filtered.length;
+        document.getElementById('statsCount').innerHTML = `📊 ${locationFiltered.length} / ${kamulastirmaData.length}`;
+        document.getElementById('totalFilteredCount').innerText = locationFiltered.length;
         document.getElementById('totalAllCount').innerText = kamulastirmaData.length;
     }
 
-    // ==================== EDIT & DELETE ====================
-    window.deleteRecord = function(id, event) {
-        if (event) event.stopPropagation();
-        if (!isAdminMode) return;
-        const item = kamulastirmaData.find(r => r.id === id);
-        if (!item) return;
-        if (confirm(`"${item.proje_adi}" kalıcı olarak silinsin mi?`)) {
-            if (database) database.child(id).remove();
-            else {
-                kamulastirmaData = kamulastirmaData.filter(r => r.id !== id);
-                updateView();
-            }
-            cancelEdit(); // Düzenleme penceresi açıksa kapat
-        }
-    };
-
+    // ==================== EDIT ====================
     window.editRecord = function(id) {
         const item = kamulastirmaData.find(r => r.id === id);
         if (!item) return;
@@ -510,9 +492,6 @@
         document.getElementById('saveBtn').style.background = '#f59e0b';
         document.getElementById('formTitle').textContent = 'KAYDI DÜZENLE';
         document.getElementById('editModeBanner').classList.add('active');
-        // Düzenleme panelinde sil butonunu göster
-        const deleteSingleBtn = document.getElementById('deleteSingleBtn');
-        if (deleteSingleBtn) deleteSingleBtn.style.display = 'flex';
         if (item.coordinates) {
             const lat = Array.isArray(item.coordinates[0]) ? L.latLngBounds(item.coordinates).getCenter().lat : item.coordinates[1];
             const lng = Array.isArray(item.coordinates[0]) ? L.latLngBounds(item.coordinates).getCenter().lng : item.coordinates[0];
@@ -530,10 +509,25 @@
         document.getElementById('saveBtn').style.background = '#3498db';
         document.getElementById('formTitle').textContent = 'YENİ PROJE';
         document.getElementById('editModeBanner').classList.remove('active');
-        const deleteSingleBtn = document.getElementById('deleteSingleBtn');
-        if (deleteSingleBtn) deleteSingleBtn.style.display = 'none';
         ['projeAdi','kararNo','kararTarihi','kurumInput','rgSayisi','sehirInput','coordsInput'].forEach(id => document.getElementById(id).value = '');
         drawnItems.clearLayers();
+    };
+
+    window.deleteFromPopup = function(id, projeAdi) {
+        if (!isAdminMode) return;
+        if (confirm(`"${projeAdi}" silinsin mi?`)) {
+            if (database) { database.child(id).remove(); map.closePopup(); }
+        }
+    };
+
+    window.deleteRecord = function(id, event) {
+        event.stopPropagation();
+        if (!isAdminMode) return;
+        const item = kamulastirmaData.find(r => r.id === id);
+        if (!item) return;
+        if (confirm(`"${item.proje_adi}" silinsin mi?`)) {
+            if (database) database.child(id).remove();
+        }
     };
 
     window.focusToProject = function(name) {
@@ -567,28 +561,6 @@
         else { selectedCategories.add(cat); labelEl.classList.remove('inactive'); }
         updateView();
     };
-
-    function setupDateRangeFilter() {
-        const startInput = document.getElementById('startDateInput');
-        const endInput = document.getElementById('endDateInput');
-        const clearBtn = document.getElementById('clearDateRangeBtn');
-
-        function applyFilter() {
-            startDate = startInput.value || null;
-            endDate = endInput.value || null;
-            updateView();
-        }
-
-        startInput.addEventListener('change', applyFilter);
-        endInput.addEventListener('change', applyFilter);
-        clearBtn.addEventListener('click', () => {
-            startInput.value = '';
-            endInput.value = '';
-            startDate = null;
-            endDate = null;
-            updateView();
-        });
-    }
 
     function setupFilters() {
         const container = document.getElementById('categoryFilters');
@@ -645,27 +617,56 @@
         } catch(e) { console.warn("Yerel JSON yüklenemedi:", e); updateView(); }
     }
 
+    // ==================== ADMİN GİRİŞ + OTURUM HATIRLA ====================
+    function activateAdminMode(fromSaved) {
+        isAdminMode = true;
+        document.getElementById('adminControls').classList.remove('hidden');
+        document.getElementById('exportBtn').classList.remove('hidden');
+        document.getElementById('geojsonExportBtn').classList.remove('hidden');
+        document.getElementById('importFileBtn').classList.remove('hidden');
+        document.getElementById('loginBtn').classList.add('hidden');
+        document.getElementById('logoutBtn').classList.remove('hidden');
+        document.getElementById('mapClickHint').classList.add('active');
+        if (fromSaved) {
+            document.getElementById('rememberedBadge').classList.add('visible');
+        }
+        if (map && !drawControl && typeof L.Control.Draw !== 'undefined') {
+            drawControl = new L.Control.Draw({ edit: { featureGroup: drawnItems }, draw: { polygon: true, marker: true, rectangle: true } });
+            map.addControl(drawControl);
+        }
+        updateView();
+    }
+
     function setupAdminPanel() {
+        // Sayfa yüklendiğinde kaydedilmiş oturumu kontrol et
+        if (checkSavedSession()) {
+            activateAdminMode(true);
+        }
+
         document.getElementById('loginBtn').onclick = () => {
             const pwd = prompt("Admin şifresi:");
+            if (pwd === null) return; // İptal tıklandı
             if (pwd === "Smtppl5862") {
-                isAdminMode = true;
-                document.getElementById('adminControls').classList.remove('hidden');
-                document.getElementById('exportBtn').classList.remove('hidden');
-                document.getElementById('geojsonExportBtn').classList.remove('hidden');
-                document.getElementById('importFileBtn').classList.remove('hidden');
-                document.getElementById('loginBtn').classList.add('hidden');
-                document.getElementById('logoutBtn').classList.remove('hidden');
-                document.getElementById('mapClickHint').classList.add('active');
-                if (map && !drawControl && typeof L.Control.Draw !== 'undefined') {
-                    drawControl = new L.Control.Draw({ edit: { featureGroup: drawnItems }, draw: { polygon: true, marker: true, rectangle: true } });
-                    map.addControl(drawControl);
-                }
-                updateView();
-            } else if (pwd !== null) alert("❌ Hatalı şifre");
+                // Şifreyi hatırla mı?
+                const remember = confirm("Bu tarayıcıda admin oturumunu hatırlayayım mı?\n\n(Tamam: Evet, İptal: Sadece şimdi)");
+                if (remember) saveAdminSession();
+                activateAdminMode(false);
+            } else {
+                alert("❌ Hatalı şifre");
+            }
         };
 
-        document.getElementById('logoutBtn').onclick = () => location.reload();
+        document.getElementById('logoutBtn').onclick = () => {
+            clearAdminSession();
+            location.reload();
+        };
+
+        // "Tarayıcı oturumunu unut" butonu (admin paneli içinde)
+        document.getElementById('forgetSessionBtn').onclick = () => {
+            clearAdminSession();
+            alert("✅ Kaydedilmiş admin oturumu silindi. Bir sonraki açılışta şifre sorulacak.");
+            document.getElementById('rememberedBadge').classList.remove('visible');
+        };
 
         document.getElementById('saveBtn').onclick = async () => {
             if (!database) return alert("Firebase bağlantısı yok!");
@@ -693,13 +694,9 @@
                 payload.eklenme_tarihi = new Date().toISOString();
                 await database.push(payload);
                 alert("✅ Kaydedildi!");
-                cancelEdit();
+                ['projeAdi','kararNo','kararTarihi','kurumInput','rgSayisi','sehirInput','coordsInput'].forEach(id => document.getElementById(id).value = '');
+                drawnItems.clearLayers();
             }
-        };
-
-        // Düzenleme panelindeki sil butonu
-        document.getElementById('deleteSingleBtn').onclick = () => {
-            if (currentEditId) deleteRecord(currentEditId, event);
         };
 
         document.getElementById('exportBtn').onclick = () => {
@@ -718,6 +715,12 @@
                 await database.remove();
                 alert("✅ Tüm veriler silindi.");
             }
+        };
+
+        // GeoJSON Export
+        document.getElementById('geojsonExportBtn').onclick = () => {
+            document.getElementById('gj_total_src').textContent = kamulastirmaData.length;
+            document.getElementById('geojsonModal').style.display = 'flex';
         };
     }
 
@@ -773,7 +776,6 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         setupFilters();
-        setupDateRangeFilter();
         setupAdminPanel();
         initFirebase();
         window.onclick = (e) => {
