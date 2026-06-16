@@ -157,6 +157,7 @@
                         <select id="deleteKategoriSelect" style="flex:1; font-size:0.7rem; padding:5px 8px; margin:0;"></select>
                         <button class="btn btn-danger btn-sm" id="deleteCategoryBtn" style="white-space:nowrap;"><i class="fas fa-trash"></i> Kategori Sil</button>
                     </div>
+                    <button class="btn btn-warning" id="cleanDupBtn" style="width:100%; margin-top:6px;"><i class="fas fa-clone"></i> ÇİFT KAYITLARI TEMİZLE</button>
                     <button class="btn btn-danger" id="deleteAllBtn" style="width:100%; margin-top:6px; background:#7f1d1d;"><i class="fas fa-bomb"></i> TÜM VERİLERİ SİL</button>
                     <!-- Şifreyi unut butonu -->
                     <button class="btn btn-sm" id="forgetSessionBtn" style="width:100%; margin-top:6px; background:#64748b; color:white;"><i class="fas fa-user-slash"></i> Tarayıcı Admin Oturumunu Unut</button>
@@ -475,6 +476,39 @@
         document.getElementById('totalAllCount').innerText = kamulastirmaData.length;
     }
 
+    // ==================== ÇİFT KAYIT TEMİZLEME ====================
+    // Aynı proje_adi + karar_sayisi grubunda en dolu (yoksa en eski) kayıt korunur,
+    // geri kalanlar duplicate olarak işaretlenip silinir.
+    function findDuplicates() {
+        const score = r => (r.coordinates?1:0)+(r.kamulastiran_kurum?1:0)+(r.tarih?1:0)+(r.resmi_gazete_sayisi?1:0);
+        const sorted = [...kamulastirmaData].sort((a,b) => {
+            const d = score(b)-score(a);
+            return d!==0 ? d : (a.eklenme_tarihi||'').localeCompare(b.eklenme_tarihi||'');
+        });
+        const seen = {}, dups = [];
+        sorted.forEach(r => {
+            const p = (r.proje_adi||'').trim().toLowerCase().replace(/\s+/g,' ');
+            const k = (r.karar_sayisi||'').toString().trim().toLowerCase();
+            const key = p+'||'+k;
+            if (seen[key]) dups.push(r); else seen[key] = true;
+        });
+        return dups; // her gruptan en dolu/en eski kayıt korunur, geri kalanı döner
+    }
+
+    async function cleanDuplicates() {
+        if (!database) return alert("Firebase bağlantısı yok!");
+        const dups = findDuplicates();
+        if (!dups.length) return alert("✅ Çift kayıt bulunamadı.");
+        const preview = dups.slice(0,15).map(d => `• ${d.proje_adi||'İsimsiz'} (${d.karar_sayisi||'?'})`).join('\n');
+        if (!confirm(`${dups.length} çift kayıt silinecek (her gruptan 1 korunur).\n\n${preview}${dups.length>15?'\n…ve diğerleri':''}\n\nGeri alınamaz. Devam?`)) return;
+        let ok=0, fail=0;
+        for (const d of dups) {
+            try { await database.child(d.id).remove(); ok++; } catch(e) { console.warn(e); fail++; }
+        }
+        alert(`✅ ${ok} çift kayıt silindi.${fail?`\n⚠️ ${fail} silinemedi.`:''}`);
+    }
+    // ==============================================================
+
     // ==================== EDIT ====================
     window.editRecord = function(id) {
         const item = kamulastirmaData.find(r => r.id === id);
@@ -709,6 +743,7 @@
         document.getElementById('jsonFileInput').onchange = (e) => { if (e.target.files[0]) previewFile(e.target.files[0]); };
         document.getElementById('processFileBtn').onclick = () => { const file = document.getElementById('jsonFileInput').files[0]; if (file) processJsonFile(file); else alert("Lütfen bir dosya seçin!"); };
         document.getElementById('deleteCategoryBtn').onclick = () => alert("Bu özellik geliştirme aşamasında.");
+        document.getElementById('cleanDupBtn').onclick = cleanDuplicates;
         document.getElementById('deleteAllBtn').onclick = async () => {
             if (confirm("Tüm veriler silinsin mi? Bu işlem geri alınamaz!")) {
                 if (!database) return alert("Firebase bağlantısı yok!");
