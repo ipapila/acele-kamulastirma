@@ -681,10 +681,10 @@
             const pwd = prompt("Admin şifresi:");
             if (pwd === null) return; // İptal tıklandı
             if (pwd === "Smtppl5862") {
-                // Şifreyi hatırla mı?
-                const remember = confirm("Bu tarayıcıda admin oturumunu hatırlayayım mı?\n\n(Tamam: Evet, İptal: Sadece şimdi)");
-                if (remember) saveAdminSession();
-                activateAdminMode(false);
+                // Otomatik hatırla — bir daha şifre sorulmaz.
+                // Çıkmak için "Tarayıcı Admin Oturumunu Unut" veya "Çıkış" butonu.
+                saveAdminSession();
+                activateAdminMode(true);
             } else {
                 alert("❌ Hatalı şifre");
             }
